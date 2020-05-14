@@ -82,10 +82,10 @@ extension Section {
         public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
             let newRows = change![NSKeyValueChangeKey.newKey] as? [BaseRow] ?? []
             let oldRows = change![NSKeyValueChangeKey.oldKey] as? [BaseRow] ?? []
-            guard let keyPathValue = keyPath, let changeType = change?[NSKeyValueChangeKey.kindKey] else { return }
+            guard let keyPathValue = keyPath, let changeType = change?[NSKeyValueChangeKey.kindKey] as? NSNumber else { return }
             let delegateValue = section?.form?.delegate
             guard keyPathValue == "_rows" else { return }
-            switch (changeType as! NSNumber).uintValue {
+            switch changeType.uintValue {
             case NSKeyValueChange.setting.rawValue:
                 if newRows.count == 0 {
                     let indexSet = IndexSet(integersIn: 0..<oldRows.count)
